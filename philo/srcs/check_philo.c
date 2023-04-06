@@ -38,6 +38,10 @@ int	watch_philo(t_watcher *watcher)
 	{
 		i = 0;
 		usleep(5);
-		while (watcher->philo_info[i]->)
+		while (watcher->philo_info[i]->is_died != 1)
+			i++;
+		if (i < watcher->num_of_philo)
+			//필로 사망 종료
+		
 	}
 }

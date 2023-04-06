@@ -29,7 +29,7 @@ void	get_fork_and_eat(t_watcher *watcher, t_philo *philo)
 		print_message(watcher, philo, FORK);
 		pthread_mutex_lock(&watcher->fork[(philo->philo_num + 1) \
 		% watcher->num_of_philo]);
-
+		print_message(watcher, philo, FORK);
 	}
 	else if (philo->philo_num % 2 == 1)
 	{
@@ -37,6 +37,7 @@ void	get_fork_and_eat(t_watcher *watcher, t_philo *philo)
 		% watcher->num_of_philo]);
 		print_message(watcher, philo, FORK);
 		pthread_mutex_lock(&watcher->fork[philo->philo_num]);
+		print_message(watcher, philo, FORK);
 	}
 	print_message(watcher, philo, EAT);
 	philo->last_eat = get_current_time(watcher);
