@@ -12,8 +12,27 @@
 
 #include "./../include/philosopher.h"
 
+void	free_watcher(t_watcher *watcher)
+{
+	int	i;
+
+	i = 0;
+	if (watcher->philo_info != 0)
+		while (i < watcher->num_of_philo)
+			free(watcher->philo_info[i++]);
+	if (watcher->philo_info != 0)
+		free(watcher->philo_info);
+	if (watcher->philo_id != 0)
+		free(watcher->philo_id);
+	i = 0;
+	while (i < watcher->num_of_philo)
+		pthread_mutex_destroy(&watcher->fork[i++]);
+	pthread_mutex_destroy(&watcher->lock);
+}
+
 void	error_exit(char *str, t_watcher *watcher)
 {
+	free_watcher(watcher);
 	perror(str);
 	exit(1);
 }
@@ -21,7 +40,7 @@ void	error_exit(char *str, t_watcher *watcher)
 int	get_current_time(t_watcher *watcher)
 {
 	if (gettimeofday(&watcher->current_time, NULL) == -1)
-		error_exit("gettimeofday:");
+		error_exit("gettimeofday:", watcher);
 	return (watcher->current_time.tv_usec - watcher->start_time.tv_usec);
 }
 

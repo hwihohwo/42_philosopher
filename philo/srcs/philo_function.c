@@ -45,6 +45,18 @@ void	get_fork_and_eat(t_watcher *watcher, t_philo *philo)
 	pthread_mutex_unlock(&watcher->fork[philo->philo_num]);
 	pthread_mutex_unlock(&watcher->fork[(philo->philo_num + 1) \
 	% watcher->num_of_philo]);
+	philo->num_of_eat++;
+}
+
+void	sleep_and_think(t_watcher *watcher, t_philo *philo)
+{
+	print_message(watcher, philo, SLEEP);
+	usleep(watcher->time_to_sleep);
+	if (watcher->time_to_eat - watcher->time_to_sleep > 0)
+	{
+		print_message(watcher, philo, THINK);
+		usleep(watcher->time_to_eat - watcher->time_to_sleep);
+	}
 }
 
 void	*philo_function(void *arg)
@@ -53,17 +65,21 @@ void	*philo_function(void *arg)
 	t_philo		*philo;
 
 	watcher = (t_watcher *)arg;
-	philo = &watcher->philo_info[philo_num];
+	philo = watcher->philo_info[watcher->philo_num];
 	init_philo(watcher, philo);
 	pthread_mutex_lock(&watcher->lock);
 	pthread_mutex_unlock(&watcher->lock);
 	while (philo->is_full == 0 && philo->is_died == 0)
 	{
-		get_fork_and_eat(watcher, philo);
-		philo->num_of_eat++;
+		if (philo->is_full == 0 && philo->is_died == 0)
+			get_fork_and_eat(watcher, philo);
 		if (philo->num_of_eat == watcher->max_eating)
+		{
 			philo->is_full = 1;
-		print_message(watcher, philo, SLEEP);
-		usleep(watcher->time_to_sleep);
+			break ;
+		}
+		if (philo->is_full == 0 && philo->is_died == 0)
+			sleep_and_think(watcher, philo);
 	}
+	return (0);
 }

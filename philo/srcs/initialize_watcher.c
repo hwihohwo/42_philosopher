@@ -26,7 +26,7 @@ void	initialize_watcher_1(char **argv, t_watcher *watcher)
 		error_exit("gettimeofday: ", watcher);
 	if (watcher->max_eating != -1)
 		watcher->max_eating = ft_atoi(argv[5]);
-	watcher->philo_info = calloc(1, sizeof(t_philo *));
+	watcher->philo_info = calloc(watcher->num_of_philo, sizeof(t_philo *));
 	if (watcher->philo_info == 0)
 		error_exit("malloc fail: ", watcher);
 	while (i < watcher->num_of_philo)
@@ -50,9 +50,9 @@ void	initialize_watcher_2(t_watcher *watcher)
 	watcher->fork = calloc(watcher->num_of_philo, sizeof(pthread_mutex_t));
 	if (watcher->fork == 0)
 		error_exit("malloc fail: ", watcher);
-	if (pthread_mutex_init(&watcher->lock) == -1)
+	if (pthread_mutex_init(&watcher->lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
-	while (i < num_of_philo)
-		if (pthread_mutex_init(&watcher->fork[i++]) == -1)
+	while (i < watcher->num_of_philo)
+		if (pthread_mutex_init(&watcher->fork[i++], NULL) == -1)
 			error_exit("mutex_init_fail: ", watcher);
 }

@@ -30,18 +30,49 @@ int	create_philo(t_watcher *watcher)
 	return (0);
 }
 
-int	watch_philo(t_watcher *watcher)
+void	philo_died(t_watcher *watcher, int philo_num)
 {
 	int	i;
 
+	i = 0;
+	while (i < watcher->num_of_philo)
+		pthread_detach(watcher->philo_id[i++]);
+	free_watcher(watcher);
+	print_message(watcher, watcher->philo_info[philo_num], DIE);
+	exit(0);
+}
+
+void	philo_finished(t_watcher *watcher)
+{
+	int	i;
+
+	i = 0;
+	free_watcher(watcher);
+	while (i < watcher->num_of_philo)
+		pthread_join(watcher->philo_id[i++], 0);
+	exit(0);
+}
+
+int	watch_philo(t_watcher *watcher)
+{
+	int	i;
+	int	full_philo;
+
+	full_philo = 0;
 	while (1)
 	{
 		i = 0;
-		usleep(5);
-		while (watcher->philo_info[i]->is_died != 1)
-			i++;
-		if (i < watcher->num_of_philo)
-			//필로 사망 종료
-		
+		usleep(4);
+		while (i < watcher->num_of_philo)
+		{
+			if (get_current_time(watcher) - \
+			watcher->philo_info[i].last_eat > watcher->time_to_die)
+				philo_died(watcher, i);
+			if (watcher->max_eating != -1)
+				if (watcher->philo_info[i].is_full == 1)
+					full_philo++;
+			if (full_philo == watcher->num_of_philo)
+				all_philo_finished(watcher);
+		}
 	}
 }

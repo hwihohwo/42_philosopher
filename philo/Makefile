@@ -15,7 +15,8 @@ CC						= cc
 SRCS                    = ./srcs/main.c \
 						  ./srcs/check_philo.c \
 						  ./srcs/philo_function.c \
-						  ./srcs/philo_utils.c
+						  ./srcs/philo_utils.c \
+						  ./srcs/initialize_watcher.c
 OBJS                    = $(SRCS:%.c=%.o)
 FLAGS                   = -Wall -Wextra -Werror
 

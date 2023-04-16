@@ -22,6 +22,6 @@ int	main(int argc, char **argv)
 	if (argc == 5)
 		watcher.max_eating = -1;
 	initialize_watcher_1(argv, &watcher);
-	if (create_philo(&watcher));
+	if (create_philo(&watcher))
 		return (1);
 }
