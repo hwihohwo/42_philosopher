@@ -15,7 +15,6 @@
 void	init_philo(t_watcher *watcher, t_philo *philo)
 {
 	philo->philo_num = watcher->philo_num;
-	philo->last_eat = 0;
 	philo->num_of_eat = 0;
 	philo->is_died = 0;
 	philo->is_full = 0;
@@ -39,8 +38,8 @@ void	get_fork_and_eat(t_watcher *watcher, t_philo *philo)
 		pthread_mutex_lock(&watcher->fork[philo->philo_num]);
 		print_message(watcher, philo, FORK);
 	}
-	print_message(watcher, philo, EAT);
 	philo->last_eat = get_current_time(watcher);
+	print_message(watcher, philo, EAT);
 	usleep(watcher->time_to_eat);
 	pthread_mutex_unlock(&watcher->fork[philo->philo_num]);
 	pthread_mutex_unlock(&watcher->fork[(philo->philo_num + 1) \
@@ -69,6 +68,7 @@ void	*philo_function(void *arg)
 	init_philo(watcher, philo);
 	pthread_mutex_lock(&watcher->lock);
 	pthread_mutex_unlock(&watcher->lock);
+	philo->last_eat = watcher->start_time.tv_usec;
 	while (philo->is_full == 0 && philo->is_died == 0)
 	{
 		if (philo->is_full == 0 && philo->is_died == 0)

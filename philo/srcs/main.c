@@ -24,4 +24,6 @@ int	main(int argc, char **argv)
 	initialize_watcher_1(argv, &watcher);
 	if (create_philo(&watcher))
 		return (1);
+	watch_philo(&watcher);
+	return (0);
 }

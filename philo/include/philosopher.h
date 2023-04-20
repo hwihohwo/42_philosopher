@@ -52,6 +52,7 @@ typedef struct s_watcher
 	pthread_t		*philo_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	print_lock;
 }	t_watcher;
 
 //philo_utils.c
