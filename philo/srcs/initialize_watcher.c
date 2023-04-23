@@ -18,6 +18,8 @@ void	initialize_watcher_1(char **argv, t_watcher *watcher)
 	int	i;
 
 	i = 0;
+	if (gettimeofday(&watcher->start_time, 0) == -1)
+		error_exit("gettimeofday error", watcher);
 	watcher->num_of_philo = ft_atoi(argv[1]);
 	watcher->time_to_die = ft_atoi(argv[2]);
 	watcher->time_to_eat = ft_atoi(argv[3]);

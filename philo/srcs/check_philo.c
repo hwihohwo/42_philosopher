@@ -21,13 +21,12 @@ int	create_philo(t_watcher *watcher)
 	while (i < watcher->num_of_philo)
 	{
 		watcher->philo_num = i;
+		init_philo(watcher, watcher->philo_info[i]);
 		if (pthread_create(&watcher->philo_id[i], NULL, philo_function, \
-		(void *)watcher))
+		(void *)watcher->philo_info[i]))
 			return (1);
 		i++;
-		usleep(10);
 	}
-	gettimeofday(&watcher->start_time, 0);
 	pthread_mutex_unlock(&watcher->lock);
 	return (0);
 }
@@ -45,13 +44,13 @@ void	philo_died(t_watcher *watcher, int philo_num)
 }
 
 void	philo_finished(t_watcher *watcher)
-{
+{	
 	int	i;
 
 	i = 0;
-	free_watcher(watcher);
 	while (i < watcher->num_of_philo)
 		pthread_join(watcher->philo_id[i++], 0);
+	free_watcher(watcher);
 	exit(0);
 }
 
@@ -64,6 +63,7 @@ int	watch_philo(t_watcher *watcher)
 	full_philo = 0;
 	while (1)
 	{
+		usleep(10);
 		i = 0;
 		while (i < watcher->num_of_philo)
 		{

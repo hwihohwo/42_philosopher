@@ -42,10 +42,14 @@ void	error_exit(char *str, t_watcher *watcher)
 
 int	get_current_time(t_watcher *watcher)
 {
-	pthread_mutex_lock(&watcher->lock);
-	gettimeofday(&watcher->current_time, NULL);
-	pthread_mutex_unlock(&watcher->lock);
-	return (watcher->current_time.tv_usec - watcher->start_time.tv_usec);
+	int	ret1;
+	int	ret2;
+
+	if (gettimeofday(&watcher->current_time, NULL) == -1)
+		error_exit("gettimeofday error", watcher);
+	ret1 = (watcher->current_time.tv_usec - watcher->start_time.tv_usec) / 1000;
+	ret2 = (watcher->current_time.tv_sec - watcher->start_time.tv_sec) * 1000;
+	return (ret1 + ret2);
 }
 
 void	print_message(t_watcher *watcher, t_philo *philo, int state)

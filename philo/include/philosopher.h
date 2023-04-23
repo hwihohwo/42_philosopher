@@ -31,11 +31,12 @@ enum e_philostate
 
 typedef struct s_philo
 {
-	int	philo_num;
-	int	last_eat;
-	int	num_of_eat;
-	int	is_died;
-	int	is_full;
+	int					philo_num;
+	int					last_eat;
+	int					num_of_eat;
+	int					is_full;
+	int					is_died;
+	struct s_watcher	*watcher;
 }	t_philo;
 
 typedef struct s_watcher
@@ -77,5 +78,6 @@ void	init_philo(t_watcher *watcher, t_philo *philo);
 void	get_fork_and_eat(t_watcher *watcher, t_philo *philo);
 void	sleep_and_think(t_watcher *watcher, t_philo *philo);
 void	*philo_function(void *arg);
+void	ft_usleep(t_watcher *watcher, int milsec);
 
 #endif
