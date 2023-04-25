@@ -30,7 +30,8 @@ void	free_watcher(t_watcher *watcher)
 	if (watcher->fork != 0)
 		free(watcher->fork);
 	pthread_mutex_destroy(&watcher->lock);
-	pthread_mutex_destroy(&watcher->print_lock);
+	pthread_mutex_destroy(&watcher->start_lock);
+	pthread_mutex_destroy(&watcher->time_lock);
 }
 
 void	error_exit(char *str, t_watcher *watcher)
@@ -45,16 +46,18 @@ int	get_current_time(t_watcher *watcher)
 	int	ret1;
 	int	ret2;
 
+	pthread_mutex_lock(&watcher->time_lock);
 	if (gettimeofday(&watcher->current_time, NULL) == -1)
 		error_exit("gettimeofday error", watcher);
 	ret1 = (watcher->current_time.tv_usec - watcher->start_time.tv_usec) / 1000;
 	ret2 = (watcher->current_time.tv_sec - watcher->start_time.tv_sec) * 1000;
+	pthread_mutex_unlock(&watcher->time_lock);
 	return (ret1 + ret2);
 }
 
 void	print_message(t_watcher *watcher, t_philo *philo, int state)
 {
-	pthread_mutex_lock(&watcher->print_lock);
+	pthread_mutex_lock(&watcher->lock);
 	if (state == FORK)
 		printf("%d philo %d has taken a fork\n", \
 		get_current_time(watcher), philo->philo_num + 1);
@@ -70,7 +73,7 @@ void	print_message(t_watcher *watcher, t_philo *philo, int state)
 	else if (state == DIE)
 		printf("%d philo %d died\n", \
 		get_current_time(watcher), philo->philo_num + 1);
-	pthread_mutex_unlock(&watcher->print_lock);
+	pthread_mutex_unlock(&watcher->lock);
 }
 
 int	ft_atoi(char *str)

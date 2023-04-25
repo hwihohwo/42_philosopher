@@ -15,10 +15,19 @@
 void	ft_usleep(t_watcher *watcher, int milsec)
 {
 	int	dest;
+	int	diff;
 
 	dest = get_current_time(watcher) + milsec;
-	while (dest > get_current_time(watcher))
-		usleep(milsec);
+	while (watcher->someone_died == 0)
+	{
+		diff = dest - get_current_time(watcher);
+		if (diff <= 0)
+			break ;
+		else if (diff < milsec)
+			usleep(milsec - diff);
+		else
+			usleep(milsec);
+	}
 }
 
 void	init_philo(t_watcher *watcher, t_philo *philo)
@@ -26,8 +35,7 @@ void	init_philo(t_watcher *watcher, t_philo *philo)
 	philo->philo_num = watcher->philo_num;
 	philo->num_of_eat = 0;
 	philo->is_full = 0;
-	philo->is_died = 0;
-	philo->last_eat = get_current_time(watcher);
+	philo->last_eat = watcher->start_eating;
 	philo->watcher = watcher;
 }
 
@@ -76,18 +84,22 @@ void	*philo_function(void *arg)
 
 	philo = (t_philo *)arg;
 	watcher = philo->watcher;
-	pthread_mutex_lock(&watcher->lock);
-	pthread_mutex_unlock(&watcher->lock);
-	while (philo->is_full == 0 && philo->is_died == 0)
+	pthread_mutex_lock(&watcher->start_lock);
+	pthread_mutex_unlock(&watcher->start_lock);
+	if (philo->philo_num % 2 == 1)
+		ft_usleep(watcher, watcher->time_to_eat / 2);
+	while (philo->is_full == 0 && watcher->someone_died == 0)
 	{
-		if (philo->is_full == 0 && philo->is_died == 0)
+		if (philo->is_full == 0 && watcher->someone_died == 0 && \
+		watcher->num_of_philo != 1)
 			get_fork_and_eat(watcher, philo);
 		if (philo->num_of_eat == watcher->max_eating)
 		{
 			philo->is_full = 1;
 			break ;
 		}
-		if (philo->is_full == 0 && philo->is_died == 0)
+		if (philo->is_full == 0 && watcher->someone_died == 0 && \
+		watcher->num_of_philo != 1)
 			sleep_and_think(watcher, philo);
 	}
 	return (0);

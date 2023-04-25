@@ -35,7 +35,6 @@ typedef struct s_philo
 	int					last_eat;
 	int					num_of_eat;
 	int					is_full;
-	int					is_died;
 	struct s_watcher	*watcher;
 }	t_philo;
 
@@ -47,13 +46,16 @@ typedef struct s_watcher
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				max_eating;
+	int				start_eating;
+	int				someone_died;
 	struct timeval	start_time;
 	struct timeval	current_time;
 	t_philo			**philo_info;
 	pthread_t		*philo_id;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	print_lock;
+	pthread_mutex_t	start_lock;
+	pthread_mutex_t	time_lock;
 }	t_watcher;
 
 //philo_utils.c

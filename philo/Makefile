@@ -23,7 +23,7 @@ FLAGS                   = -Wall -Wextra -Werror
 all :   $(NAME)
 
 $(NAME)     :   $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(SRCS) -lpthread -I ./include/
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) -lpthread -I ./include/ -fsanitize=thread -g
 
 clean   :
 	rm -f $(OBJS)
