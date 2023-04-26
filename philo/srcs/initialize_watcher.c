@@ -12,7 +12,6 @@
 
 #include "./../include/philosopher.h"
 
-
 void	initialize_watcher_1(char **argv, t_watcher *watcher)
 {
 	int	i;
@@ -57,6 +56,10 @@ void	initialize_watcher_2(t_watcher *watcher)
 	if (pthread_mutex_init(&watcher->start_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
 	if (pthread_mutex_init(&watcher->time_lock, NULL) == -1)
+		error_exit("mutex_init_fail: ", watcher);
+	if (pthread_mutex_init(&watcher->lasteat_lock, NULL) == -1)
+		error_exit("mutex_init_fail: ", watcher);
+	if (pthread_mutex_init(&watcher->die_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
 	while (i < watcher->num_of_philo)
 		if (pthread_mutex_init(&watcher->fork[i++], NULL) == -1)

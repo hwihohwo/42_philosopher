@@ -56,18 +56,26 @@ typedef struct s_watcher
 	pthread_mutex_t	lock;
 	pthread_mutex_t	start_lock;
 	pthread_mutex_t	time_lock;
+	pthread_mutex_t	lasteat_lock;
+	pthread_mutex_t	die_lock;
 }	t_watcher;
 
-//philo_utils.c
+//philo_utils_1.c
 void	free_watcher(t_watcher *watcher);
 void	error_exit(char *str, t_watcher *watcher);
 int		get_current_time(t_watcher *watcher);
 void	print_message(t_watcher *watcher, t_philo *philo, int state);
 int		ft_atoi(char *str);
 
+//philo_utils_2.c
+void	change_last_eat(t_watcher *watcher, int philo_num, int value);
+int		get_last_eat(t_watcher *watcher, int philo_num);
+void	change_someone_died(t_watcher *watcher);
+int		get_someone_died(t_watcher *watcher);
+
 //initialize_watcher.c
 void	initialize_watcher_1(char **argv, t_watcher *watcher);
-void	initialize_watcher_2(t_watcher *watcher);\
+void	initialize_watcher_2(t_watcher *watcher);
 
 //check_philo.c
 int		create_philo(t_watcher *watcher);

@@ -32,6 +32,8 @@ void	free_watcher(t_watcher *watcher)
 	pthread_mutex_destroy(&watcher->lock);
 	pthread_mutex_destroy(&watcher->start_lock);
 	pthread_mutex_destroy(&watcher->time_lock);
+	pthread_mutex_destroy(&watcher->lasteat_lock);
+	pthread_mutex_destroy(&watcher->die_lock);
 }
 
 void	error_exit(char *str, t_watcher *watcher)

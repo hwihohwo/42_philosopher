@@ -15,7 +15,8 @@ CC						= cc
 SRCS                    = ./srcs/main.c \
 						  ./srcs/check_philo.c \
 						  ./srcs/philo_function.c \
-						  ./srcs/philo_utils.c \
+						  ./srcs/philo_utils_1.c \
+						  ./srcs/philo_utils_2.c \
 						  ./srcs/initialize_watcher.c
 OBJS                    = $(SRCS:%.c=%.o)
 FLAGS                   = -Wall -Wextra -Werror
@@ -23,7 +24,7 @@ FLAGS                   = -Wall -Wextra -Werror
 all :   $(NAME)
 
 $(NAME)     :   $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(SRCS) -lpthread -I ./include/ -fsanitize=thread -g
+	$(CC) $(FLAGS) -o $(NAME) $(SRCS) -lpthread -I ./include/
 
 clean   :
 	rm -f $(OBJS)

@@ -29,7 +29,7 @@ int	create_philo(t_watcher *watcher)
 	}
 	watcher->start_eating = get_current_time(watcher);
 	pthread_mutex_unlock(&watcher->start_lock);
-	return (0);	
+	return (0);
 }
 
 void	philo_died(t_watcher *watcher, int philo_num)
@@ -37,7 +37,7 @@ void	philo_died(t_watcher *watcher, int philo_num)
 	int	i;
 
 	i = 0;
-	watcher->someone_died = 1;
+	change_someone_died(watcher);
 	while (i < watcher->num_of_philo)
 		pthread_join(watcher->philo_id[i++], 0);
 	print_message(watcher, watcher->philo_info[philo_num], DIE);
@@ -69,7 +69,7 @@ int	watch_philo(t_watcher *watcher)
 		while (i < watcher->num_of_philo)
 		{
 			usleep(5);
-			diff = get_current_time(watcher) - watcher->philo_info[i]->last_eat;
+			diff = get_current_time(watcher) - get_last_eat(watcher, i);
 			if (diff > watcher->time_to_die)
 				philo_died(watcher, i);
 			if (watcher->max_eating != -1)
