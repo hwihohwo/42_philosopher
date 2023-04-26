@@ -26,7 +26,7 @@ void	ft_usleep(t_watcher *watcher, int milsec)
 		else if (diff < milsec)
 			usleep(milsec - diff);
 		else
-			usleep(milsec);
+			usleep(milsec * 200);
 	}
 }
 

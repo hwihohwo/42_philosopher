@@ -65,10 +65,10 @@ int	watch_philo(t_watcher *watcher)
 	full_philo = 0;
 	while (1)
 	{
+		usleep(1000);
 		i = 0;
 		while (i < watcher->num_of_philo)
 		{
-			usleep(5);
 			diff = get_current_time(watcher) - get_last_eat(watcher, i);
 			if (diff > watcher->time_to_die)
 				philo_died(watcher, i);
