@@ -17,6 +17,7 @@ SRCS                    = ./srcs/main.c \
 						  ./srcs/philo_function.c \
 						  ./srcs/philo_utils_1.c \
 						  ./srcs/philo_utils_2.c \
+						  ./srcs/philo_utils_3.c \
 						  ./srcs/initialize_watcher.c
 OBJS                    = $(SRCS:%.c=%.o)
 FLAGS                   = -Wall -Wextra -Werror

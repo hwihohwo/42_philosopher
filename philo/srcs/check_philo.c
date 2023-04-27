@@ -73,7 +73,7 @@ int	watch_philo(t_watcher *watcher)
 			if (diff > watcher->time_to_die)
 				philo_died(watcher, i);
 			if (watcher->max_eating != -1)
-				if (watcher->philo_info[i]->is_full == 1)
+				if (get_is_full(watcher, i) == 1)
 					full_philo++;
 			if (full_philo == watcher->num_of_philo)
 				philo_finished(watcher);

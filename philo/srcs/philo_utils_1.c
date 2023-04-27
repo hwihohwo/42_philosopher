@@ -29,11 +29,12 @@ void	free_watcher(t_watcher *watcher)
 		pthread_mutex_destroy(&watcher->fork[i++]);
 	if (watcher->fork != 0)
 		free(watcher->fork);
-	pthread_mutex_destroy(&watcher->lock);
+	pthread_mutex_destroy(&watcher->print_lock);
 	pthread_mutex_destroy(&watcher->start_lock);
 	pthread_mutex_destroy(&watcher->time_lock);
 	pthread_mutex_destroy(&watcher->lasteat_lock);
 	pthread_mutex_destroy(&watcher->die_lock);
+	pthread_mutex_destroy(&watcher->full_lock);
 }
 
 void	error_exit(char *str, t_watcher *watcher)
@@ -59,7 +60,7 @@ int	get_current_time(t_watcher *watcher)
 
 void	print_message(t_watcher *watcher, t_philo *philo, int state)
 {
-	pthread_mutex_lock(&watcher->lock);
+	pthread_mutex_lock(&watcher->print_lock);
 	if (state == FORK)
 		printf("%d %d has taken a fork\n", \
 		get_current_time(watcher), philo->philo_num + 1);
@@ -75,7 +76,7 @@ void	print_message(t_watcher *watcher, t_philo *philo, int state)
 	else if (state == DIE)
 		printf("%d %d died\n", \
 		get_current_time(watcher), philo->philo_num + 1);
-	pthread_mutex_unlock(&watcher->lock);
+	pthread_mutex_unlock(&watcher->print_lock);
 }
 
 int	ft_atoi(char *str)

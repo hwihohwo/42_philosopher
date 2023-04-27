@@ -27,12 +27,12 @@ void	initialize_watcher_1(char **argv, t_watcher *watcher)
 	watcher->start_eating = 0;
 	if (watcher->max_eating != -1)
 		watcher->max_eating = ft_atoi(argv[5]);
-	watcher->philo_info = calloc(watcher->num_of_philo, sizeof(t_philo *));
+	watcher->philo_info = malloc(watcher->num_of_philo * sizeof(t_philo *));
 	if (watcher->philo_info == 0)
 		error_exit("malloc fail: ", watcher);
 	while (i < watcher->num_of_philo)
 	{
-		watcher->philo_info[i] = calloc(1, sizeof(t_philo));
+		watcher->philo_info[i] = malloc(sizeof(t_philo));
 		if (watcher->philo_info[i] == 0)
 			error_exit("malloc fail: ", watcher);
 		i++;
@@ -45,13 +45,13 @@ void	initialize_watcher_2(t_watcher *watcher)
 	int	i;
 
 	i = 0;
-	watcher->philo_id = calloc(watcher->num_of_philo, sizeof(pthread_t));
+	watcher->philo_id = malloc(watcher->num_of_philo * sizeof(pthread_t));
 	if (watcher->philo_id == 0)
 		error_exit("malloc fail: ", watcher);
-	watcher->fork = calloc(watcher->num_of_philo, sizeof(pthread_mutex_t));
+	watcher->fork = malloc(watcher->num_of_philo * sizeof(pthread_mutex_t));
 	if (watcher->fork == 0)
 		error_exit("malloc fail: ", watcher);
-	if (pthread_mutex_init(&watcher->lock, NULL) == -1)
+	if (pthread_mutex_init(&watcher->print_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
 	if (pthread_mutex_init(&watcher->start_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
@@ -60,6 +60,8 @@ void	initialize_watcher_2(t_watcher *watcher)
 	if (pthread_mutex_init(&watcher->lasteat_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
 	if (pthread_mutex_init(&watcher->die_lock, NULL) == -1)
+		error_exit("mutex_init_fail: ", watcher);
+	if (pthread_mutex_init(&watcher->full_lock, NULL) == -1)
 		error_exit("mutex_init_fail: ", watcher);
 	while (i < watcher->num_of_philo)
 		if (pthread_mutex_init(&watcher->fork[i++], NULL) == -1)
