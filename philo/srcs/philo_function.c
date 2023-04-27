@@ -41,22 +41,11 @@ void	init_philo(t_watcher *watcher, t_philo *philo)
 
 void	get_fork_and_eat(t_watcher *watcher, t_philo *philo)
 {
-	if (philo->philo_num % 2 == 0)
-	{
-		pthread_mutex_lock(&watcher->fork[philo->philo_num]);
-		print_message(watcher, philo, FORK);
-		pthread_mutex_lock(&watcher->fork[(philo->philo_num + 1) \
-		% watcher->num_of_philo]);
-		print_message(watcher, philo, FORK);
-	}
-	else if (philo->philo_num % 2 == 1)
-	{
-		pthread_mutex_lock(&watcher->fork[(philo->philo_num + 1) \
-		% watcher->num_of_philo]);
-		print_message(watcher, philo, FORK);
-		pthread_mutex_lock(&watcher->fork[philo->philo_num]);
-		print_message(watcher, philo, FORK);
-	}
+	pthread_mutex_lock(&watcher->fork[philo->philo_num]);
+	print_message(watcher, philo, FORK);
+	pthread_mutex_lock(&watcher->fork[(philo->philo_num + 1) \
+	% watcher->num_of_philo]);
+	print_message(watcher, philo, FORK);
 	change_last_eat(watcher, philo->philo_num, get_current_time(watcher));
 	print_message(watcher, philo, EAT);
 	ft_usleep(watcher, watcher->time_to_eat);

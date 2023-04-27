@@ -61,19 +61,19 @@ void	print_message(t_watcher *watcher, t_philo *philo, int state)
 {
 	pthread_mutex_lock(&watcher->lock);
 	if (state == FORK)
-		printf("%d philo %d has taken a fork\n", \
+		printf("%d %d has taken a fork\n", \
 		get_current_time(watcher), philo->philo_num + 1);
 	else if (state == EAT)
-		printf("%d philo %d is eating\n", \
+		printf("%d %d is eating\n", \
 		get_current_time(watcher), philo->philo_num + 1);
 	else if (state == SLEEP)
-		printf("%d philo %d is sleeping\n", \
+		printf("%d %d is sleeping\n", \
 		get_current_time(watcher), philo->philo_num + 1);
 	else if (state == THINK)
-		printf("%d philo %d is thinking\n", \
+		printf("%d %d is thinking\n", \
 		get_current_time(watcher), philo->philo_num + 1);
 	else if (state == DIE)
-		printf("%d philo %d died\n", \
+		printf("%d %d died\n", \
 		get_current_time(watcher), philo->philo_num + 1);
 	pthread_mutex_unlock(&watcher->lock);
 }
