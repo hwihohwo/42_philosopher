@@ -59,11 +59,7 @@ void	sleep_and_think(t_watcher *watcher, t_philo *philo)
 {
 	print_message(watcher, philo, SLEEP);
 	ft_usleep(watcher, watcher->time_to_sleep);
-	if (watcher->time_to_eat - watcher->time_to_sleep > 0)
-	{
-		print_message(watcher, philo, THINK);
-		ft_usleep(watcher, watcher->time_to_eat - watcher->time_to_sleep);
-	}
+	print_message(watcher, philo, THINK);
 }
 
 void	*philo_function(void *arg)
