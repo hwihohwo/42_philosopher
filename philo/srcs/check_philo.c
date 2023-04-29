@@ -42,7 +42,6 @@ void	philo_died(t_watcher *watcher, int philo_num)
 		pthread_join(watcher->philo_id[i++], 0);
 	print_message(watcher, watcher->philo_info[philo_num], DIE);
 	free_watcher(watcher);
-	exit(0);
 }
 
 void	philo_finished(t_watcher *watcher)
@@ -53,10 +52,9 @@ void	philo_finished(t_watcher *watcher)
 	while (i < watcher->num_of_philo)
 		pthread_join(watcher->philo_id[i++], 0);
 	free_watcher(watcher);
-	exit(0);
 }
 
-int	watch_philo(t_watcher *watcher)
+void	watch_philo(t_watcher *watcher)
 {
 	int	i;
 	int	full_philo;
@@ -71,12 +69,14 @@ int	watch_philo(t_watcher *watcher)
 		{
 			diff = get_current_time(watcher) - get_last_eat(watcher, i);
 			if (diff > watcher->time_to_die)
-				philo_died(watcher, i);
-			if (watcher->max_eating != -1)
-				if (get_is_full(watcher, i) == 1)
-					full_philo++;
+				return (philo_died(watcher, i));
+			if (get_is_full(watcher, i) == 1)
+			{
+				full_philo++;
+				change_is_full(watcher, i);
+			}
 			if (full_philo == watcher->num_of_philo)
-				philo_finished(watcher);
+				return (philo_finished(watcher));
 			i++;
 		}
 	}

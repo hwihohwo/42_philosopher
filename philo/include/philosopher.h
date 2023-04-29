@@ -86,7 +86,7 @@ void	initialize_watcher_2(t_watcher *watcher);
 int		create_philo(t_watcher *watcher);
 void	philo_died(t_watcher *watcher, int philo_num);
 void	philo_finished(t_watcher *watcher);
-int		watch_philo(t_watcher *watcher);
+void	watch_philo(t_watcher *watcher);
 
 //philo_function.c
 void	init_philo(t_watcher *watcher, t_philo *philo);
